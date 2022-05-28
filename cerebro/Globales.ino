@@ -12,18 +12,13 @@ void setupGlobales()
   pinMode(LedRed4, OUTPUT);
   pinMode(LedIni, OUTPUT);
   pinMode(alarma, OUTPUT);
+  pinMode(buzzer, OUTPUT);
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
   Serial.begin(9600);
   Serial.setTimeout(1500);
   randomSeed(analogRead(A7));
-  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
-  Serial.print("\nLectura del valor del ADC:  ");
-  Serial.println(scale.read()); Serial.println("No ponga ningun  objeto sobre la balanza");
-  Serial.println("Destarando...");
-  Serial.println("...");
-  scale.set_scale(47777);
-  scale.tare(100);
+
 }
 
 void Acerto()
@@ -170,7 +165,7 @@ void Inicializacion()
       else if (incomingByte == 'h')
       {
         Serial.println("Ejercicio 4 seleccionado: Libre");
-        Serial.println("Presione x: Salir  --- k: Predeterminado --- r: Modo libre --- l: Modo libre competencia ");
+        Serial.println("Presione x: Salir  --- r: Modo libre --- l: Modo libre competencia ");
         Libre();
       }
       else if (incomingByte == 'i')
@@ -214,12 +209,7 @@ void InicioLed()
 {
   digitalWrite(LedIni, HIGH);
   digitalWrite(alarma, HIGH);
-  delay(500);
-  digitalWrite(LedIni, LOW);
-  digitalWrite(alarma, LOW);
-  delay(500);
-  digitalWrite(LedIni, HIGH);
-  digitalWrite(alarma, HIGH);
+    delay(500); 
   delay(500);
   digitalWrite(LedIni, LOW);
   digitalWrite(alarma, LOW);
@@ -232,21 +222,7 @@ void IniAnalog()
     SensoAnalog[i] = analogRead(i);
   }
 }
-void Mostrarpeso()
-{
-  if (scale.is_ready())
-  {
-    Serial.print("peso ");
-    r = abs(((scale.get_units(1) * 10)));
-    Serial.print(abs(r));
-    Serial.println(" kg");
-    delay(100); 
-  }
-  else
-  {
-    Serial.println("HX711 no se encuentra");
-  }
-}
+
 void Aleatorio()
 {
   alea2 = random(200, 3000);

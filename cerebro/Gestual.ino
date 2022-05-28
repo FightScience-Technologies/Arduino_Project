@@ -30,7 +30,6 @@ void Gestual()
                   Milli = millis();
                   Time1 = Milli - Previus;
                   Serial.println("\nSensor # " + String(i));
-                  Mostrarpeso();
                   Serial.print("Tiempo de reacción: ");
                   Serial.print(Time1 / 1000);
                   Serial.println("  Segundos");
@@ -60,12 +59,69 @@ void Gestual()
       if (incomingByte == 'k')
       {
         elfla = 0;
-        Serial.println("Ingrese el Tiempo de la prueba");
-        InsertarNumero();
-        TimePa2 = millis() + (numero * 1000);
-        Serial.println("Ingrese Sensor");
-        InsertarNumero();
-        while (millis() < TimePa2)
+           Serial.println("Ingrese el tiempo de la prueba");
+          InsertarNumero();
+          V3[0] = numero;
+          Serial.println( "Ingrese Numero de Round");
+          InsertarNumero();
+          while (numero > 7)
+          {
+            Serial.println("No esta dentro del limite");
+            InsertarNumero();
+          }
+          V3[1] = numero;
+          Serial.println("Ingrese Tiempo de descanso");
+          InsertarNumero();
+          V3[2] = numero;
+          Serial.println("Numero de leds a usar");
+          InsertarNumero();
+          while (numero > 10)
+          {
+            Serial.println("No esta dentro del limite");
+            InsertarNumero();
+          }
+          V3[3] = numero;
+          cont_v = 0;
+          Val = 0;
+          Serial.println("Qué leds usará? seleccione entre 1 y 6 (En orden de secuencia)");
+          while (true)
+          {
+            Val = Serial.parseInt();
+            if (Val > 0 && Val <= 6)
+            {
+              V[cont_v] = Val;
+              cont_v = cont_v + 1;
+              Serial.print(Val, DEC);
+              Serial.print("- \n");
+              Val = 0;
+            }
+            else if (Val > 6)
+            {
+              Serial.println("Ingrese otro valor entre (0 a 6)");
+              cont_v = cont_v;
+              Val = 0;
+            }
+            if (cont_v == V3[3])
+            {
+              break;
+            }
+          }
+          if (cont_v >= data)
+          {
+            cont_v = 0;
+            Time3 = 0;
+            Step = 0;
+            Val = 0;
+          }
+          Serial.println("Ingrese el tiempo de encendido entre leds");
+          InsertarNumero();
+          V3[4] = numero;
+          InicioLed();
+          elpipe = 1;
+          c = 0;
+          Previus = millis();
+          TimePa = millis() + (V3[0] * 1000);    
+          while (c < V3[1] && millis() < TimePa)
         {
           flagEx2 = 0;
           alea2 = random(500, 1200);
@@ -91,10 +147,9 @@ void Gestual()
                   Milli = millis();
                   Time1 = Milli - Previus;
                   Serial.println("\nSensor # " + String(i));
-                  Mostrarpeso();
-                  Serial.print("Tiempo de reacción: ");
-                  Serial.print(Time1 / 1000);
-                  Serial.println("  Segundos");
+                      Serial.print("Tiempo de reacción: ");
+                      Serial.print(Time1 / 1000);
+                      Serial.println("  Segundos");
                   flagEx2 = 0;
                   digitalWrite(Leds[i], LOW);
                   elfla = 1;

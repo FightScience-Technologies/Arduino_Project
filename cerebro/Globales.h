@@ -6,17 +6,26 @@
 const int LedGre1 = 22;
 const int LedRed1 = 23;
 const int LedGre2 = 24;
+const int LedIni = 30;
+const int LOADCELL_DOUT_PIN = 2;
+const int LOADCELL_SCK_PIN = 3;
+float r = 0;
+
+
 const int LedRed2 = 25;
 const int LedGre3 = 26;
 const int LedRed3 = 27;
 const int LedGre4 = 28;
 const int LedRed4 = 7;
 const int alarma = 29;
-const int LedIni = 30;
-const int LOADCELL_DOUT_PIN = 2;
-const int LOADCELL_SCK_PIN = 3;
-float r = 0;
+const int buzzer = 50;
 
+
+
+
+
+
+    
 // Variable definition
 int rango,c,numero,rep1, rep3, data, data2, data3, data4, data5, Val, aleatorio2, flaco, elpipe, Pat, SensorValue0, SensorValue1, SensorValue2, SensorValue3, SensorValue4, SensorValue5, SensorValue6, t, rep, rep2, step1, valor, cont_v, tiempos, tiempos2, tiempos3, tiempos4, tiempos5 = 0;
 int V[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

@@ -27,7 +27,7 @@ void modoLibreReaccion()
           Serial.println("Ingrese Tiempo de descanso");
           InsertarNumero();
           V3[2] = numero;
-          Serial.println("Rango de leds");
+          Serial.println("Numero de leds a usar");
           InsertarNumero();
           while (numero > 10)
           {
@@ -92,16 +92,35 @@ void modoLibreReaccion()
               {
                 for ( int j = 1; j < 7; j++)
                 { IniAnalog();
-                  if ( SensoAnalog[j] > 800 )
+                  
+                   if (SensoAnalog[j] > 900  )
                   {
                     digitalWrite(Leds[V[i]], LOW);
                     Serial.println("\nSensor #" + String(V[i]));
-                    Mostrarpeso();
+                   Milli = millis();
+                  Time1 = Milli - Previus;
+                       Serial.print("Tiempo de  reacción: ");
+                  Serial.print(Time1 / 6000);
+                  Serial.println("  Segundos");
+                  flagEx2 = 0;
+                  digitalWrite(Leds[i], LOW);
+                  elfla = 1;
+                   
                     tiempos = 1;
                     j = 7;
+
+
+
                   }
                 }
               }
+
+
+
+
+
+
+              
               elpipe = 1;
               if (i == V3[3] - 1)
               {
@@ -112,6 +131,10 @@ void modoLibreReaccion()
               }
             }
           }
+
+
+
+          
           
           Finalizo();
           Milli = millis();
@@ -127,86 +150,46 @@ void modoLibreReaccion()
         }
         if (incomingByte == 'r')
         {
-          //          Serial.println("Ingrese el tiempo de la prueba");
-          //          InsertarNumero();
-          //          V3[0] = TimePa;
-          Serial.println( "Ingrese Numero de Round");
-          InsertarNumero();
-          while (numero > 7)
+        Serial.println("Ingrese el Tiempo de la prueba");
+        InsertarNumero();
+        InicioLed();
+        while (millis() < TimePa)
+        {
+          Aleatorio();
+          if (flagEx2 == 1 || flagEx2 == 2 || flagEx2 == 3 || flagEx2 == 4 || flagEx2 == 5 || flagEx2 == 6)
           {
-            Serial.println("No esta dentro del limite");
-            InsertarNumero();
-          }
-          V3[1] = numero;
-          Serial.println("Ingrese Tiempo de descanso");
-          InsertarNumero();
-          V3[2] = numero;
-          Serial.print("Rango de leds: ");
-          V3[3] = random(1, 11);
-          Serial.println(V3[3]);
-          for (int i = 0; i < V3[3]; i++)
-          {
-            int vr = random(1, 7);
-            V[i] = vr;
-            Serial.println(vr);
-          }
-          V3[4] = random(1, 4);
-          InicioLed();
-          elpipe = 1;
-          c = 0;
-          Previus = millis();
-          while (c < V3[1])
-          {
-            int n = sizeof(V) / sizeof(V[0]);
-            for (int i = 0; i < V3[3]; i++)
+            while (elfla == 0)
             {
-              while (true)
+              IniAnalog();
+              for ( int i = 1; i < 7; i++)
               {
-                IniAnalog();
-                Serial.print("segundos entre leds  ");
-                Serial.println(V3[4]);
-                delay(V3[4] * 1000);
-                digitalWrite(Leds[V[i]], HIGH);
-                tiempos = 0;
-                break;
-              }
-              while (tiempos == 0)
-              {
-
-                for ( int j = 1; j < 7; j++)
-                { IniAnalog();
-                  if ( SensoAnalog[j] > 800 )
-                  {
-                    digitalWrite(Leds[V[i]], LOW);
-                    Serial.println("\nSensor #" + String(V[i]));
-                    Mostrarpeso();
-                    tiempos = 1;
-                    j = 7;
-                  }
+                if (SensoAnalog[i] >= 800 && flagEx2 == i)
+                {
+                  Time1 = millis() - Previus;
+                  Serial.println("\nSensor # " + String(i));
+                 
+                  Serial.print("Tiempo de reacción: ");
+                  Serial.print(Time1 / 1000);
+                  Serial.println("  Segundos");
+                  Gol();
+                  flagEx2 = 0;
+                  digitalWrite(Leds[i], LOW);
+                  elfla = 1;
+                  Serial.println("Preparese...");
                 }
               }
-              elpipe = 1;
-              if (i == V3[3] - 1)
-              {
-                c ++;
-                Serial.print("Este es el delay en segundos: ");
-                Serial.println(V3[2]);
-                delay(V3[2] * 1000);
-              }
+
             }
+            elfla = 0;
           }
-          Finalizo();
-          Milli = millis();
-          Time1 = Milli - Previus;
-          Serial.print("Tiempo toda la prueba: ");
-          Serial.print(Time1 / 1000);
-          Serial.println(" Segundos");
-          Finalizo();
-          Previus = 0;
-          tiempos = 0;
-          Serial.println("Ejercicio termiando");
-          Serial.println("Presione x: salir --- r: Reiniciar secuencia -- v:nueva secuencia");
         }
+        Serial.println("Cantidad de patadas: ");
+        Serial.println(Pat);
+        Finalizo();
+        TimePa = 0;
+        OffAll();
+        Serial.println("Presione x: salir  --- k: Predeterminado --- r: Modo Libre --- l: Modo competencia ");
+      }
         if (incomingByte == 'm')
         {
           Serial.println( "Ingrese Numero de Round");
@@ -345,7 +328,7 @@ void modoLibreReaccion()
               {
                 digitalWrite(Leds[V[i]], LOW);
                 Serial.println("\nSensor #" + String(V[i]));
-                Mostrarpeso();
+               
                 tiempos = 1;
                 j = 7;
               }

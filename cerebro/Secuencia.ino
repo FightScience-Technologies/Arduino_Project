@@ -89,7 +89,6 @@ void Secuence()
               {
                 digitalWrite(Leds[i], HIGH);
                 Serial.println("\nSensor # " + String(i));
-                Mostrarpeso();
                 delay(50);
                 flagPress = 1;
                 c = c + 1;

@@ -27,7 +27,7 @@ void Velocidad_Reaccion()
             {
               Salida();
               IniAnalog();
-              if (SensoAnalog[0] > 800)
+              if (SensoAnalog[0] > 600)
               {
                 delay(alea);
                 Previus = millis();
@@ -55,7 +55,7 @@ void Velocidad_Reaccion()
               {
                 Salida();
                 IniAnalog();
-                if (SensoAnalog[0] > 800)
+                if (SensoAnalog[0] > 600)
                 {
                   delay(alea2);
                   Previus = millis();
@@ -78,7 +78,7 @@ void salidaVel()
   elpipe = 0;
   while (elpipe == 0)
   { IniAnalog();
-    if (SensoAnalog[0] < 800)
+    if (SensoAnalog[0] < 600)
     {
       Serial.print("\nEl tiempo que se demoro despegando el pie es: ");
       Serial.print((millis() - Previus) / 1000);
@@ -91,11 +91,10 @@ void salidaVel()
   { IniAnalog();
     for ( int i = 1; i < 7; i++)
     {
-      if ( SensoAnalog[i] > 800)
+      if ( SensoAnalog[i] > 600)
       {
         digitalWrite(Leds[i], LOW);
         Serial.println("\nSensor #" + String(i));
-        Mostrarpeso();
         tiempos = 0;
       }
     }

@@ -1,8 +1,16 @@
 void Libre()
 {
-  while (0 == 0),
+  while (0 == 0)
   {
     if (Serial.available() > 0)
+  
+  
+  
+  
+  
+  
+  
+  
     {
       incomingByte = Serial.read();
       if (incomingByte == 'x')
@@ -25,11 +33,11 @@ void Libre()
           {
             if ( SensoAnalog[i] > 800 && !flagPress)
             {
-
+ delay(500);
               digitalWrite(Leds[i], HIGH);
               flagPress = 1;
               Serial.println("\nSensor #" + String(i));
-              Mostrarpeso();
+             
               Serial.println("Sensor# " + String(i) + " presionado");
             }
             if (SensoAnalog[i] < 800 && flagPress == 1)
@@ -82,7 +90,7 @@ void Libre()
                 {
                   Time1 = millis() - Previus;
                   Serial.println("\nSensor # " + String(i));
-                  Mostrarpeso();
+                 
                   Serial.print("Tiempo de reacción: ");
                   Serial.print(Time1 / 1000);
                   Serial.println("  Segundos");
@@ -107,7 +115,8 @@ void Libre()
       }
       if (incomingByte == 'r')
       {
-        Serial.print("Ingrese el tiempo de la prueba \n");
+      
+        Serial.print("Ingrese el tiempo de la prueba: \n");
         InsertarNumero();
         InicioLed();
         while (millis() < TimePa)
@@ -118,11 +127,12 @@ void Libre()
           {
             if ( SensoAnalog[i] > 800 && !flagPress)
             {
-              Serial.println("Sensor# " + String(i) + " presionado");
+ delay(500);
               digitalWrite(Leds[i], HIGH);
               flagPress = 1;
               Serial.println("\nSensor #" + String(i));
-              Mostrarpeso();
+             
+              Serial.println("Sensor# " + String(i) + " presionado");
             }
             if (SensoAnalog[i] < 800 && flagPress == 1)
             {
@@ -134,9 +144,12 @@ void Libre()
         }
         Serial.println("\nCantidad de patadas:");
         Serial.println(Pat);
-        delay(200);
+        if (Pat < rep1)
+       
+
         Finalizo();
         TimePa = 0;
+        rep1 = 0;
         OffAll();
         Serial.println("Presione x: salir  --- k: Predeterminado --- r: Modo Libre -- l: Modo competencia");
       }
